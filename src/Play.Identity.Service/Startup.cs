@@ -1,16 +1,11 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using GreenPipes;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
@@ -107,6 +102,10 @@ namespace Play.Identity.Service
 
             app.UseIdentityServer();
             app.UseAuthorization();
+
+            app.UseCookiePolicy(new CookiePolicyOptions{
+                MinimumSameSitePolicy = SameSiteMode.Lax
+            });
 
             app.UseEndpoints(endpoints =>
             {
