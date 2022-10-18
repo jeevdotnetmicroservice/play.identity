@@ -14,10 +14,12 @@ spec:
     spec:
       containers:
       - name: identity
-        image: jeevplayeconomy.azurecr.io/play.identity:1.0.7
+        image: jeevplayeconomy.azurecr.io/play.identity:1.0.8
         env:
           - name: ServiceSettings__MessageBroker
             value: SERVICEBUS
+          - name: ServiceSettings__KeyVaultName
+            value: jeevplayeconomy
         resources:
           limits:
             memory: "128Mi"
