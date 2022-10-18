@@ -3,7 +3,7 @@ Play Economy Play.Identity microservice.
 
 ## Create and publish package
 ```powershell
-$version="1.0.6"
+$version="1.0.7"
 $packageversion="1.0.4"
 $owner="jeevdotnetmicroservice"
 $gh_pat="[PAT HERE]"
@@ -50,4 +50,19 @@ kubectl create secret generic identity-secrets --from-literal=cosmosdb-connectio
 ## Create the Kubernetes pod
 ```poswershell
 kubectl apply -f .\kubernetes\identity.yml -n $namespace
+```
+
+### Creating the pod managed identity
+```powershell
+$rgname="playeconomy"
+az identity create --resource-group $rgname --name $namespace
+$IDENTITY_RESOURCE_ID=az identity show -g $rgname -n $namespace --query id -otsv
+
+az aks pod-identity add --resource-group $rgname --cluster-name $rpname --namespace $namespace --name $namespace --identity-resource-id $IDENTITY_RESOURCE_ID
+```
+
+## Granting access to Key Vault secrets
+```powershell
+$IDENTITY_CLIENT_ID=az identity show -g $rgname -n $namespace --query clientId -otsv
+az keyvault set-policy -n $rpname --secret-permissions get list --spn $IDENTITY_CLIENT_ID
 ```
