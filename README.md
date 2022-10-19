@@ -3,7 +3,7 @@ Play Economy Play.Identity microservice.
 
 ## Create and publish package
 ```powershell
-$version="1.0.8"
+$version="1.0.9"
 $packageversion="1.0.4"
 $owner="jeevdotnetmicroservice"
 $gh_pat="[PAT HERE]"
