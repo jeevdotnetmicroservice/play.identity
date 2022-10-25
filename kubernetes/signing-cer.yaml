@@ -8,5 +8,5 @@ spec:
     name: letsencrypt-prod
     kind: ClusterIssuer
   dnsNames:
-    - "jeevplayeconomy.eastus.cloudapp.azure.com"
+    - jeevplayeconomy.eastus.cloudapp.azure.com
 

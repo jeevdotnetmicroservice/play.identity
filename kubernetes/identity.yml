@@ -13,47 +13,47 @@ spec:
         aadpodidbinding: identity
     spec:
       containers:
-      - name: identity
-        image: jeevplayeconomy.azurecr.io/play.identity:1.0.10
-        env:
-          - name: ServiceSettings__MessageBroker
-            value: SERVICEBUS
-          - name: ServiceSettings__KeyVaultName
-            value: jeevplayeconomy
-          - name: IdentitySettings__PathBase
-            value: /identity-svc
-          - name: IdentitySettings__CertificateCerFilePath
-            value: "/certificate/certificate.crt"
-          - name: IdentitySettings__CertificateKeyFilePath
-            value: "/certificate/certificate.key"
-        resources:
-          limits:
-            memory: "128Mi"
-            cpu: "150m"
-        ports:
-        - containerPort: 5002
-        livenessProbe:
-          httpGet:
-            path: /health/live
-            port: 5002
-          initialDelaySeconds: 10
-        readinessProbe:
-          httpGet:
-            path: /health/ready
-            port: 5002
-          initialDelaySeconds: 10
-        volumeMounts:
-          - name: certificate-volume
-            mountPath: /certicates
-    volumes:
-      - name: certificate-volume
-        secret:
-          secretName: signing-cert
-          items:
-            - key: tls.key
-              path: certificate.key
-            - key: tls.crt
-              path: certificate.crt
+        - name: identity
+          image: jeevplayeconomy.azurecr.io/play.identity:1.0.14
+          env:
+            - name: ServiceSettings__MessageBroker
+              value: SERVICEBUS
+            - name: ServiceSettings__KeyVaultName
+              value: jeevplayeconomy
+            - name: IdentitySettings__PathBase
+              value: /identity-svc
+            - name: IdentitySettings__CertificateCerFilePath
+              value: "/certificates/certificate.crt"
+            - name: IdentitySettings__CertificateKeyFilePath
+              value: "/certificates/certificate.key"
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "150m"
+          ports:
+            - containerPort: 5002
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: 5002
+            initialDelaySeconds: 100
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: 5002
+            initialDelaySeconds: 100
+          volumeMounts:
+            - name: certificate-volume
+              mountPath: /certificates
+      volumes:
+        - name: certificate-volume
+          secret:
+            secretName: signing-cert
+            items:
+              - key: tls.key
+                path: certificate.key
+              - key: tls.crt
+                path: certificate.crt
 
 ---
 apiVersion: v1
@@ -65,6 +65,5 @@ spec:
   selector:
     app: identity
   ports:
-  - port: 80
-    targetPort: 5002
-
+    - port: 80
+      targetPort: 5002
