@@ -78,3 +78,6 @@ $chartVersion="0.1.0"
 helm upgrade identity-service oci://$rpname.azurecr.io/helm/microservice --version $chartVersion -f .\helm\values.yaml -n $namespace --install
 ```
 
+## Required repository secrets for GitHub workflow
+GH_PAT: Created in GitHub user profile --> Settings --> Developer settings --> Personal access token
+
