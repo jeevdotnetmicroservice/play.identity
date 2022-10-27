@@ -68,5 +68,13 @@ kubectl apply -f .\kubernetes\signing-cer.yaml -n $namespace
 
 ## Install the Helm Chart
 ```powershell
-helm install identity-service .\helm -f .\helm\values.yaml -n $namespace
+$helmUser=[guid]::Empty.Guid
+$helmPassword = az acr login --name $rpname --expose-token --output tsv --query accessToken
+
+$env:HELM_EXPERIMENTAL_OCI=1
+helm registry login "$rpname.azurecr.io" --username $helmUser --password $helmPassword
+
+$chartVersion="0.1.0"
+helm upgrade identity-service oci://$rpname.azurecr.io/helm/microservice --version $chartVersion -f .\helm\values.yaml -n $namespace --install
 ```
+
