@@ -73,6 +73,9 @@ jobs:
         client-id: ${{secrets.AZURE_CLIENT_ID}}
         tenant-id: ${{secrets.AZURE_TENANT_ID}}
         subscription-id: ${{secrets.AZURE_SUBSCRIPTION_ID}}
+        
+    - name: Login to container registry
+      run: az acr login --name ${{env.RP_NAME}}
 
     - name: Build and push Docker images
       uses: docker/build-push-action@v3.2.0
@@ -81,4 +84,5 @@ jobs:
           "GH_OWNER=${{github.repository_owner}}"
           "GH_PAT=${{secrets.GH_PAT}}"
           tags: ${{env.RP_NAME}}.azurecr.io/play.identity:${{needs.generate-version.outputs.new_version}}
+          push: true
 
