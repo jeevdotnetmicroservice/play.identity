@@ -98,7 +98,7 @@ jobs:
     - name: Login to Helm registry
       run: |
         helmUser="00000000-0000-0000-0000-000000000000"
-        helmPassword = $(az acr login --name ${{env.RP_NAME}} --expose-token --output tsv --query accessToken)
+        $helmPassword = az acr login --name ${{env.RP_NAME}} --expose-token --output tsv --query accessToken
         helm registry login ${{env.RP_NAME}}.azurecr.io --username $helmUser --password $helmPassword
         
     - name: Deploy Helm Chart
