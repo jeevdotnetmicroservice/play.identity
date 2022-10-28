@@ -59,6 +59,7 @@ jobs:
     
     env:
       RP_NAME: jeevplayeconomy
+      RG_NAME: playeconomy
       SERVICE_NAME: identity
       HELM_CHART_VERSION: 0.1.0
 
@@ -89,7 +90,7 @@ jobs:
         push: true
         
     - name: Get AKS Credentials
-      run: az aks get-credentials --resource-group ${{env.RP_NAME}} --name ${{env.RP_NAME}}
+      run: az aks get-credentials --resource-group ${{env.RG_NAME}} --name ${{env.RP_NAME}}
       
     - name: Helm tool installer
       uses: Azure/setup-helm@v3
