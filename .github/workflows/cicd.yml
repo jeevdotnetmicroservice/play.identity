@@ -60,14 +60,25 @@ jobs:
     env:
       RP_NAME: jeevplayeconomy
 
+    permissions:
+      id-token: write
+      contents: read
+      
     steps:
     - uses: actions/checkout@v3
     
+    - name: Azure Login
+      uses: Azure/login@v1.4.6
+      with:
+        client-id: ${{AZURE_CLIENT_ID}}
+        tenant-id: ${{AZURE_TENANT_ID}}
+        subscription-id: ${{AZURE_SUBSCRIPTION_ID}}
+
     - name: Build and push Docker images
       uses: docker/build-push-action@v3.2.0
       with:
         secrets: |
           "GH_OWNER=${{github.repository_owner}}"
           "GH_PAT=${{secrets.GH_PAT}}"
-        tags: ${{env.RP_NAME}}.azurecr.io/play.identity:${{needs.generate-version.outputs.new_version}}
-        
+          tags: ${{env.RP_NAME}}.azurecr.io/play.identity:${{needs.generate-version.outputs.new_version}}
+
