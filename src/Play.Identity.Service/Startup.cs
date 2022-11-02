@@ -74,7 +74,8 @@ namespace Play.Identity.Service
             services.AddHealthChecks()
                     .AddMongoDb();
             services.AddSeqLogging(Configuration)
-                    .AddTracing(Configuration);
+                    .AddTracing(Configuration)
+                    .AddMetrics(Configuration);
 
             services.Configure<ForwardedHeadersOptions>(options =>
             {
