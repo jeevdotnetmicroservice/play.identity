@@ -73,6 +73,7 @@ namespace Play.Identity.Service
 
             services.AddHealthChecks()
                     .AddMongoDb();
+                    
             services.AddSeqLogging(Configuration)
                     .AddTracing(Configuration)
                     .AddMetrics(Configuration);
@@ -102,7 +103,7 @@ namespace Play.Identity.Service
                         .AllowAnyMethod();
                 });
             }
-
+            app.UseOpenTelemetryPrometheusScrapingEndpoint();
             app.UseHttpsRedirection();
 
             app.Use((context, next) =>
